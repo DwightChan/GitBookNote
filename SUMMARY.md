@@ -1,6 +1,7 @@
 # SUMMARY 目录
 
 * [README](README.md)
+* [C](C/SUMMARY.md)
 * [Public](Public/SUMMARY.md)
 * [Android](Android/SUMMARY.md)
 * [H5](H5/SUMMARY.md)
