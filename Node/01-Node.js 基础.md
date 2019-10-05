@@ -27,6 +27,7 @@
 ### 1.4 Node是什么
 
 - [Node](http://nodejs.cn/download/)是一个基于Chrome V8引擎的JavaScript代码运行环境。
+
 ![chromeV8](images/node_chromeV8.png)
 ![node.js](images/Snip20191005_3.png)
 
@@ -42,26 +43,30 @@
 - [官网：https://nodejs.org/en/](https://nodejs.org/en/)
 - LTS = Long Term Support 长期支持版 稳定版
 - Current 拥有最新特性 实验版
-- ![node 当前版本](images/node_version.png)
-- ![node_environ](images/node_environ.png)
+
+![node 当前版本](images/node_version.png)
+![node_environ](images/node_environ.png)
 
 ### 2.2 Node环境安装失败解决办法 
 
 -	1. 错误代号2502、2503
 	- 失败原因: 系统账户权限不足;
 	- 解决方法:
-		- 以管理员身份运行powershell命令行工具
-		- 输入运行安装包命令 msiexec /package node安装包位置
-	![node安装失败](images/node_install_failure.png)
+		- 以管理员身份运行`powershell`命令行工具
+		- 输入运行安装包命令 `msiexec /package node`安装包位置
+
+![node安装失败](images/node_install_failure.png)
 	
 - 2. 执行命令报错
 	- 失败原因：Node安装目录写入环境变量失败
 	- 解决办法：将Node安装目录添加到环境变量中
-	- ![node 执行命令报错](images/node_exe_failure.png)
+
+![node 执行命令报错](images/node_exe_failure.png)
 
 ### 2.3 PATH环境变量 (Windows 系统添加方法)
 
 - 存储系统中的目录，在命令行中执行命令的时候系统会自动去这些目录中查找命令的位置。
+
 ![添加环境变量 ](images/node_add_environ_path.png)
 
 ## 3. Node.js快速入门
@@ -70,20 +75,22 @@
 
 - JavaScript 由三部分组成，ECMAScript，DOM，BOM。
 - Node.js是由ECMAScript及Node 环境提供的一些附加API组成的，包括文件、网络、路径等等一些更加强大的 API。
+
 ![JavaScript 和 Node.js的区别](images/Snip20191005_4.png)
 
 ### 3.2 Node.js基础语法
 
 - 所有ECMAScript语法在Node环境中都可以使用。
 - 在Node环境下执行代码，使用Node命令执行后缀为.js的文件即可
+
 ![node 环境下执行代码](images/node_exe_code.png)
 
 ### 3.3 Node.js全局对象global
 
 - 在浏览器中全局对象是window，在Node中全局对象是global。
 - Node中全局对象下有以下方法，可以在任何地方使用，global可以省略。
-	- console.log()     在控制台中输出
-	- setTimeout()     设置超时定时器
-	- clearTimeout()  清除超时时定时器
-	- setInterval()      设置间歇定时器
-	- clearInterval()   清除间歇定时器
+	- `console.log()`     在控制台中输出
+	- `setTimeout()`     设置超时定时器
+	- `clearTimeout()`  清除超时时定时器
+	- `setInterval()`      设置间歇定时器
+	- `clearInterval()`   清除间歇定时器
