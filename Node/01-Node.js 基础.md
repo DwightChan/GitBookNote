@@ -2,9 +2,11 @@
 
 ---
 
-# Node.js 基础
+# [Node.js 基础](https://nodejs.jakeyu.top)
 
 ## 1. Node开发概述
+
+[node.js 学习网站node.js 基础教程](https://nodejs.jakeyu.top)
 
 ### 1.1 为什么要学习服务器端开发基础
 
