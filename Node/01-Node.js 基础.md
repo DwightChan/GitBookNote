@@ -6,6 +6,10 @@
 
 ## 1. Node开发概述
 
+http://javascript.ruanyifeng.com/nodejs/npm.html
+
+
+
 ### 1.1 为什么要学习服务器端开发基础
 
 - 能够和后端程序员更加紧密的配合
@@ -94,3 +98,12 @@
 	- `clearTimeout()`  清除超时时定时器
 	- `setInterval()`      设置间歇定时器
 	- `clearInterval()`   清除间歇定时器
+
+### 4. Node 服务器运行
+
+- 终端进入 `node.js` 对应文件夹
+- 在终端中输入 `node 文件.js` 即可启动服务器(前提是在post 端口没有被占用)
+
+- 停止node 服务器
+	- `ps -ef | grep node`
+	- `kill  id` (id 是端口号)
