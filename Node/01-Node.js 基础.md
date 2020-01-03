@@ -104,7 +104,7 @@ http://javascript.ruanyifeng.com/nodejs/npm.html
 
 - 终端进入 `node.js` 对应文件夹
 - 在终端中输入 `node 文件.js` 即可启动服务器(前提是在post 端口没有被占用)
-
+- 或者可以在终端中输入 `nodemon 文件.js` , 如果是 项目一般有index.js, 则可以直接用`node`或者`nodemon` 即可;
 - 停止node 服务器
 	- `ps -ef | grep node`
 	- `kill  id` (id 是端口号)
