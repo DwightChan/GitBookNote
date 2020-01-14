@@ -4,13 +4,15 @@
 
 ### 一 、设置Git的user name和email：
 
-`$ git config --global user.name "你的名字/your name"`
+- `$ git config --global user.name "你的名字/your name"`
 
 ```
 --global user.name "Dwight"
 ```
 
-`$ git config --global user.email "你的邮箱/your email"`
+
+- `$ git config --global user.email "你的邮箱/your email"`
+
 
 ```
 --global user.email "958689927@qq.com"
@@ -19,10 +21,19 @@
 
 ### 二、生成SSH密钥过程：
 
-1. 查看是否已经有了ssh密钥：`cd ~/.ssh`
+1. 查看是否已经有了ssh密钥：
+
+```
+cd ~/.ssh`
+```
+
 如果没有密钥则不会有此文件夹，有则备份删除
 2. 生存密钥：
-`$ ssh-keygen -t rsa -C "你的邮箱/your email"`
+
+```
+$ ssh-keygen -t rsa -C "你的邮箱/your email"
+```
+
 
 3. 按3个回车，密码为空。
 

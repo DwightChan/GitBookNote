@@ -1,3 +1,11 @@
+
+
+# UNIX基本命令
+
+
+
+[详细在线文档 https://www.w3cschool.cn/unix/t6ve1pd1.html](https://www.w3cschool.cn/unix/t6ve1pd1.html)
+
 # UNIX基本命令
 
 * Mac系统采用的是UNIX文件系统,所有的文件都放在根目录/下面,因此没有Windows中分C盘、D盘 的概念
