@@ -71,6 +71,22 @@ export default class App extends Component {
 
 ![Snip20200221_26](images/Snip20200221_26.png)
 
+- 重新运行的时候是可能依然报错, 如下: 
+
+```js
+# 运行
+DwightdeiMac-96:GitHub_RN dwight$ react-native run-ios --simulator "iPhone 8"
+# 错误信息
+error React Native CLI uses autolinking for native dependencies, but the following modules are linked manually: 
+  - react-native-webview (to unlink run: "react-native unlink react-native-webview")
+This is likely happening when upgrading React Native from below 0.60 to 0.60 or above. Going forward, you can unlink this dependency via "react-native unlink <dependency>" and it will be included in your app automatically. If a library isn't compatible with autolinking, disregard this message and notify the library maintainers.
+Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md
+info Found Xcode workspace "GitHub_RN.xcworkspace"
+info Building (using "xcodebuild -workspace GitHub_RN.xcworkspace -configuration Debug -scheme GitHub_RN -destination id=E4687B16-78D3-4126-ACEE-1E57527C8E83")
+```
+
+- 根据以上错误信息提示, 在项目下终端运行`react-native unlink react-native-webview` 即可;
+
 - 以上步骤完成以后, 重新运行项目即可; 
 
 ## Android 中使用 react-native-webview
