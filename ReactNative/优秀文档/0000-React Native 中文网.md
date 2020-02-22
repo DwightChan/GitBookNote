@@ -2,6 +2,15 @@
 
 ---
 
+## ⭐️资源汇总
+
+[✨✨✨React Native Facebook官网: https://facebook.github.io/react-native/docs/getting-started]
+[✨✨✨React Native中文网: https://reactnative.cn/]
+[✨✨✨React native 基础教程WiKi:https://wiki.imooc.com/reactnative/introduce.html]
+[✨✨✨论坛 - React Native中文社区:https://bbs.reactnative.cn/]
+[✨✨✨RNStudyNotes--作者: crazycodebody: https://github.com/crazycodeboy/RNStudyNotes]
+
+
 ## [React Native 中文网](https://reactnative.cn/docs/tutorial/)
 
 ### 入门基础
