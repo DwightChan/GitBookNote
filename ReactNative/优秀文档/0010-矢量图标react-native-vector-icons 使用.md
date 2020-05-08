@@ -1,7 +1,13 @@
+[toc]
+
+---
+
 # React-native 中使用 react-native-vector-icons 图标库
 
 > CONS是矢量图，可以直接使用图片名, 就能加载图片的第三方,使用很方便, 你不需要在工程文件夹里塞各种图片, 字体图标的使用在开发中常常有意想不到的趣味性，和便捷而且大小颜色等定义相对于图片而言实在是方便不少；
->
+
+## ios项目添加矢量图标
+
 > 刚入RN 不久今天遇到了点坑，现在分享总结一下 react-native-vector-icons的简单使用，虽然之前也看了需要地方的教程，但是可能因为版本的原因，运行项目都是包无法加载字体文件；本文所在系统 为 IOS下，
 >
 > - 初始化 React-native 项目工程，还不会的同学可以参考一下，[RN 中文网](http://reactnative.cn/docs/0.48/getting-started.html#content)
@@ -116,16 +122,77 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 
 [React.js](https://juejin.im/tag/React.js)[图片资源](https://juejin.im/tag/图片资源)[Icon](https://juejin.im/tag/Icon)[前端](https://juejin.im/tag/前端)
 
+> [捏泥巴的小人](https://juejin.im/user/58afec7d8d6d81005854be71)[![lv-1](https://b-gold-cdn.xitu.io/v3/static/img/lv-1.636691c.svg)](https://juejin.im/book/5c90640c5188252d7941f5bb/section/5c9065385188252da6320022)
+> 
 
+## android端添加矢量图标
 
+## 二、矢量图标的运用
 
+[https://github.com/oblador/react-native-vector-icons](https://www.jishuwen.com/jump/aHR0cHM6Ly9naXRodWIuY29tL29ibGFkb3IvcmVhY3QtbmF0aXZlLXZlY3Rvci1pY29ucw==)
 
+`react-native-vector-icons` 是可以直接使用图片名就能加载图片的第三方,类似于 `web的` iconfont`矢量图，使用很方便, 你不需要在工程文件夹里塞各种图片, 节省很多空间,下面就来看看怎么使用吧
 
+```
+npm install react-native-vector-icons --save
+npm install rnpm -g
+```
 
+### 2.1 android平台
 
+#### 1. 自动配置
 
-[捏泥巴的小人](https://juejin.im/user/58afec7d8d6d81005854be71)[![lv-1](https://b-gold-cdn.xitu.io/v3/static/img/lv-1.636691c.svg)](https://juejin.im/book/5c90640c5188252d7941f5bb/section/5c9065385188252da6320022)web开发
+```
+react-native link react-native-vector-icons
+# 或者
+npm install -g rnpm
+rnpm link react-native-vector-icons
+```
 
-[发布了 5 篇专栏 · ](https://juejin.im/user/58afec7d8d6d81005854be71/posts)获得点赞 52 · 获得阅读 4,532
+会为你配置好所有，但是这是成功的情况下，你不需要操心任何事，但是往往不能如愿。如果你这步成功了，而且能够正常运行，下面这些你就可以跳过
 
-关注
+#### 2. 手动配置
+
+- 第一步：复制字体文件（这一步千万不能忘记，不然就算运行成功你也看不到图标）
+
+找到项目 `node_modules/react-native-vector-icons/Fonts` ，里面有很多已经内置的图标库字体文件，依照自己的需求，复制你需要的字体文件到 `android/app/src/main/assets/fonts` ，（如果没有这个目录就自行创建）
+
+![img](https://img0.tuicool.com/mqYVJj2.png)
+
+- 第二步：配置 `android/settings.gradle`
+
+在现有的代码基础上添加如下代码
+
+```
+include ':react-native-vector-icons'
+project(':react-native-vector-icons').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-vector-icons/android')
+```
+
+- 第三步：配置 `android/app/build.gradle`
+
+```
+dependencies {
+    compile project(':react-native-vector-icons') //添加
+    compile fileTree(dir: "libs", include: ["*.jar"])
+    compile "com.android.support:appcompat-v7:23.0.1"
+    compile "com.facebook.react:react-native:+"  // From node_modules
+    compile project(':react-native-navigation')
+}
+```
+
+- 第四步：配置 `android/app/src/main/java/com/xxxx/MainApplication.java`
+
+```
+import com.oblador.vectoricons.VectorIconsPackage;
+@Override
+  protected List<ReactPackage> getPackages() {
+    return Arrays.<ReactPackage>asList(
+      new MainReactPackage()
++   , new VectorIconsPackage()
+    );
+  }
+```
+
+到这里配置就全部完成，接下来就可以在 `rn` 项目中使用 `iconfont`
+
+![0010-矢量图标](0010-矢量图标.png)
