@@ -347,12 +347,20 @@ code-push release-react <APPName> android
 code-push release-react <appName> ios  --t 1.0.0 --dev false --d Production --des "1.优化操作流程" --m true
 
 // android
-code-push release-react <appName> android  --t 1.0.0 --dev false --d Production --des "1.优化操作流程" --m true
+code-push release-react <appName> android  --t 1.0.0 --dev false --d Production --des "1.吐司弹框" --m true
 
 
-code-push release-react xpj01_android android   --t 1.0.0 --dev false --d Production --des "android mg 游戏内嵌打开" --m true
+// Staging
+code-push release-react xpj01_android android  --t 1.0.0 --dev false --d Staging --des "声音放到本地包中" --m true
  
-code-push release-react xpj01_ios ios  --t 1.0.0 --dev false --d Production --des "android 设置为通栏显示" --m true
+code-push release-react xpj01_ios ios  --t 1.0.0 --dev false --d Staging --des "声音放到本地包中" 
+
+// Production
+code-push release-react xpj01_android android  --t 1.0.0 --dev false --d Production --des "vip等级更新" --m true
+ 
+code-push release-react xpj01_ios ios  --t 1.0.1 --dev false --d Production --des "vip等级更新" --m true
+
+code-push release-react xpj01_ios ios  --t 1.0.0 --dev false --d Production --des "vip等级更新" --m true
 ```
 
 其中参数–t为二进制(.ipa与apk)安装包的的版本；–dev为是否启用开发者模式(默认为false)；–d是要发布更新的环境分Production与Staging(默认为Staging)；–des为更新说明；–m 是强制更新。
