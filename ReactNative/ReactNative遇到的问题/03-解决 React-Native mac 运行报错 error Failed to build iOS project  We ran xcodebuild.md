@@ -18,19 +18,19 @@ error Failed to build iOS project. We ran "xcodebuild" command but it exited wit
 rm -rf node_modules && yarn cache clean
 ```
 
-1. 重新装包
+2. 重新装包
 
 ```
 yarn install
 ```
 
-1. 清除 React-Native 缓存
+3. 清除 React-Native 缓存
 
 ```
 rm -rf ~/.rncache
 ```
 
-1. 下载 React-Native IOS 运行依赖
+4. 下载 React-Native IOS 运行依赖
 
 直接运行下载脚本，若直接下载完成，后面的步骤就不用看了，直接运行项目 `react-native run-ios` 即可
 
