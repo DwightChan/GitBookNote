@@ -64,7 +64,3 @@ mReactRootView.startReactApplication(mReactInstanceManager, "项目名", null);
 
 
 
----
-
->作者 [李将军杀到](https://www.jianshu.com/u/a2710bc5209a) （为了节省时间，复制了一下这个作者的原贴，特此声明 ）
->原贴地址：[http://www.jianshu.com/p/82a09063e61c](https://www.jianshu.com/p/82a09063e61c)
