@@ -251,8 +251,8 @@ static CDHTools *_instance;
 //  Single.h
 //  day02-05-通用版单例
 //
-//  Created by 陈德豪 on 16/6/18.
-//  Copyright © 2016年 陈德豪. All rights reserved.
+//  Created by Dwight on 16/6/18.
+//  Copyright © 2016年 Dwight. All rights reserved.
 //
 
 

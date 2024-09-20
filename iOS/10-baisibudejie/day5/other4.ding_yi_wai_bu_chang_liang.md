@@ -14,7 +14,7 @@
   //  BuDeJie
   //
   //  Created by chendehao on 15/4/14.
-  //  Copyright © 2015年 陈德豪. All rights reserved.
+  //  Copyright © 2015年 Dwight. All rights reserved.
   //
 
   #import <UIKit/UIKit.h>
@@ -42,7 +42,7 @@
   //  BuDeJie
   //
   //  Created by chendehao on 15/4/14.
-  //  Copyright © 2015年 陈德豪. All rights reserved.
+  //  Copyright © 2015年 Dwight. All rights reserved.
   //
 
   //#import <UIKit/UIKit.h>// 用这个也可以, 用下面这行也行

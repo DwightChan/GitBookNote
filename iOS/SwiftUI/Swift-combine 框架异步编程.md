@@ -15,11 +15,12 @@
   - [3. 编程方式简介](#3-编程方式简介)
     - [3.1 什么是编程范式(Programming paradigm）](#31-什么是编程范式programming-paradigm)
     - [3.2 常见编程范式](#32-常见编程范式)
+    - [3.3 Combine框架的编程范式](#33-combine框架的编程范式)
   - [4. Combine基本思考](#4-combine基本思考)
     - [4.1 发布者订阅者模式 publish-subscribe pattern](#41-发布者订阅者模式-publish-subscribe-pattern)
     - [4.2 Combine框架概念](#42-combine框架概念)
     - [4.3 发布者(Publishers）](#43-发布者publishers)
-    - [4.4 运算符（Qperators）](#44-运算符qperators)
+    - [4.4 运算符（Operators）](#44-运算符operators)
     - [4.5 订阅者（ Subscribers）](#45-订阅者-subscribers)
     - [4.6 订阅（Subscriptions）](#46-订阅subscriptions)
   - [5. Combine 基本演示和处理流程](#5-combine-基本演示和处理流程)
@@ -585,7 +586,7 @@ Task {
 
 不同的编程范式适合不同类型的问题和应用程序，以及不同的开发者风格。现代编程语言和框架通常支持多种编程范式的组合，允许开发者选择最合适的工具来解决问题。选择适合你的问题和项目的编程范式可以提高代码的质量和可维护性。
 
-3.3 Combine框架的编程范式
+### 3.3 Combine框架的编程范式
 
 Combine框架是一个现代的响应式编程框架，它结合了多种编程范式，包括以下几种：
 
@@ -706,21 +707,22 @@ let subscription = publisher.sink { value in
 
 
 **需要考虑的问题**
-什么时间点发送数据？
-发送什么类型的数据？
-发送多少次？
-可以发送错误数据吗？
-停止发送的条件？
-发布者对象的生命周期？
-还有没有其他的功能？
-Combine框架中，提供了多少种发布者，如何使用？
-其他，可以自定义？线程可以指定吗？
-等等
+
+1. 什么时间点发送数据？
+2. 发送什么类型的数据？
+3. 发送多少次？
+4. 可以发送错误数据吗？
+5. 停止发送的条件？
+6. 发布者对象的生命周期？
+7. 还有没有其他的功能？
+8. Combine框架中，提供了多少种发布者，如何使用？
+9. 其他，可以自定义？线程可以指定吗？
+10. 等等
 
 
-### 4.4 运算符（Qperators）
+### 4.4 运算符（Operators）
 
-运算符（Qperators），表现得像一个中转站，把发布者的数据进行处理后，然后再发布给另一个Operator或者订阅者。
+运算符（Operators），表现得像一个中转站，把发布者的数据进行处理后，然后再发布给另一个Operator或者订阅者。
 
 在Combine框架中，运算符（Operators）充当中转站，用于对发布者的数据进行处理、转换或筛选，然后再将处理后的数据发布给下一个运算符或订阅者。运算符是Combine框架的一个关键概念，它们允许你以流水线的方式对数据流进行处理。
 
@@ -843,11 +845,11 @@ let cancellable = subscription // 存储订阅关系
 
 
 **需要考虑的问题**
-﻿如何建立订阅？
-﻿如何取消订阅？
-被取消后的订阅是否可以继续开启，或者参与的发布对象等还可以重新使用？
-订阅的参与对象（发布、运算符、订阅者）在Combine框架中，如何调度？
-﻿﻿多个订阅之间，可以互相独立，也可以有关系？
+1. 如何建立订阅？
+2. 如何取消订阅？
+3. 被取消后的订阅是否可以继续开启，或者参与的发布对象等还可以重新使用？
+4. 订阅的参与对象（发布、运算符、订阅者）在Combine框架中，如何调度？
+5. 多个订阅之间，可以互相独立，也可以有关系？
 
 
 
@@ -1924,10 +1926,10 @@ cancellable.cancel()
 
 ### 7.5 自定义订阅者 Custorm Subscriber Sample
 
-通过 o1_Custorm SUbscribersample学习：
-如何自定义一个简单的订阅者
-体会subscription.request的配置作用
-如何计算接受发布数据的次数
+通过 Custorm Subscribersample学习：
+1. 如何自定义一个简单的订阅者
+2. 体会subscription.request的配置作用
+3. 如何计算接受发布数据的次数
 
 
 在Combine中，自定义一个简单的订阅者可以让你更好地理解订阅者的工作原理以及如何配置`subscription.request`以控制数据接收的次数。让我们通过一个示例来学习如何自定义一个订阅者，理解`subscription.request`的作用，以及如何计算接收发布数据的次数。
@@ -2277,11 +2279,11 @@ struct ContentView: View {
 
 ## 8. 转换操作符Transforming Operators
 
- 各种Transforming Operators
+1. 各种Transforming Operators
 collect, map, flatMap, replace Nil, replaceEmpty, scan
-理解map的逻辑转换。
-理解flatMap的工作机制。
-理解scan 和reduce的区别。
+2. 理解map的逻辑转换。
+3. 理解flatMap的工作机制。
+4. 理解scan 和reduce的区别。
 
 ### 8.1 常用操作符 collect, map, flatMap, replace Nil, replaceEmpty, scan
 
