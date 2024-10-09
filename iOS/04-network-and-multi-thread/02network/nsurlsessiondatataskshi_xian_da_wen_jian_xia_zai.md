@@ -73,8 +73,8 @@
   //  ViewController.m
   //  day05-10-掌握-NSURLSession文件下载(dataTask·开始暂停取消继续等常见操作)
   //
-  //  Created by 陈德豪 on 16/6/24.
-  //  Copyright © 2016年 陈德豪. All rights reserved.
+  //  Created by Dwight on 16/6/24.
+  //  Copyright © 2016年 Dwight. All rights reserved.
   //
   ```
   ```objc

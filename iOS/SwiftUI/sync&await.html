@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>async &#x548c; await</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <ul>
+<li><a href="#async-%E5%92%8C-await">async 和 await</a>
+<ul>
+<li><a href="#%E5%8D%8F%E7%A8%8B%E7%9A%84%E6%A6%82%E5%BF%B5">协程的概念</a></li>
+<li><a href="#async-%E5%92%8C-await-%E7%9A%84%E7%94%A8%E6%B3%95"><code>async</code> 和 <code>await</code> 的用法</a></li>
+<li><a href="#%E6%9B%B4%E5%A4%8D%E6%9D%82%E7%9A%84%E7%A4%BA%E4%BE%8B">更复杂的示例</a></li>
+<li><a href="#%E7%90%86%E8%A7%A3%E5%8D%8F%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB">理解协程与线程的区别</a></li>
+<li><a href="#%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8%E4%B8%AD%E7%9A%84%E5%8D%8F%E7%A8%8B%E7%A4%BA%E4%BE%8B">实际应用中的协程示例</a></li>
+<li><a href="#%E7%A4%BA%E4%BE%8B-1%E5%B9%B6%E5%8F%91%E8%AF%B7%E6%B1%82%E6%95%B0%E6%8D%AE">示例 1：并发请求数据</a></li>
+<li><a href="#%E7%A4%BA%E4%BE%8B-2%E4%BE%9D%E8%B5%96%E4%BB%BB%E5%8A%A1%E7%9A%84%E6%89%A7%E8%A1%8C">示例 2：依赖任务的执行</a></li>
+<li><a href="#%E7%A4%BA%E4%BE%8B-3%E5%B9%B6%E5%8F%91%E5%92%8C%E4%BE%9D%E8%B5%96%E4%BB%BB%E5%8A%A1%E7%BB%93%E5%90%88">示例 3：并发和依赖任务结合</a></li>
+<li><a href="#%E5%8D%8F%E7%A8%8B%E7%9A%84%E4%BC%98%E5%8A%BF">协程的优势</a></li>
+</ul>
+</li>
+</ul>
+<h1 id="async-和-await">async 和 await</h1>
+<p>理解 <code>async</code> 和 <code>await</code> 的用法以及协程的概念可以帮助你编写高效的异步代码。在 Swift 中，协程是一种更高级的控制流机制，可以暂停和恢复计算。<code>async</code> 和 <code>await</code> 关键字使得异步编程变得更加直观和易于理解。</p>
+<h3 id="协程的概念">协程的概念</h3>
+<p>协程是一种轻量级的线程，它们可以在执行期间被挂起和恢复，而不需要操作系统线程的上下文切换。协程可以帮助你避免回调地狱，使得异步代码看起来像同步代码，从而提高代码的可读性和可维护性。</p>
+<h3 id="async-和-await-的用法"><code>async</code> 和 <code>await</code> 的用法</h3>
+<p>在 Swift 中，<code>async</code> 用于标记一个函数是异步的，<code>await</code> 用于等待一个异步操作的完成。下面是一个简单的示例，展示了如何使用 <code>async</code> 和 <code>await</code>：</p>
+<pre><code class="language-swift"><span class="hljs-keyword">import</span> Foundation
+
+<span class="hljs-comment">// 定义一个异步函数，模拟一个异步操作</span>
+<span class="hljs-keyword">func</span> <span class="hljs-title function_">fetchUserData</span>() <span class="hljs-keyword">async</span> <span class="hljs-keyword">throws</span> -&gt; <span class="hljs-type">String</span> {
+    <span class="hljs-comment">// 模拟一个网络请求</span>
+    <span class="hljs-keyword">try</span> <span class="hljs-keyword">await</span> <span class="hljs-type">Task</span>.sleep(nanoseconds: <span class="hljs-number">1_000_000_000</span>) <span class="hljs-comment">// 睡眠1秒</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;User data fetched&quot;</span>
+}
+
+<span class="hljs-comment">// 定义一个调用异步函数的函数</span>
+<span class="hljs-keyword">func</span> <span class="hljs-title function_">performAsyncOperation</span>() <span class="hljs-keyword">async</span> {
+    <span class="hljs-keyword">do</span> {
+        <span class="hljs-keyword">let</span> userData <span class="hljs-operator">=</span> <span class="hljs-keyword">try</span> <span class="hljs-keyword">await</span> fetchUserData()
+        <span class="hljs-built_in">print</span>(userData)
+    } <span class="hljs-keyword">catch</span> {
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Failed to fetch user data: <span class="hljs-subst">\(error)</span>&quot;</span>)
+    }
+}
+
+<span class="hljs-comment">// 在适当的地方调用 performAsyncOperation() 函数，例如在 viewDidLoad() 中</span>
+<span class="hljs-meta">@MainActor</span>
+<span class="hljs-keyword">func</span> <span class="hljs-title function_">exampleUsage</span>() {
+    <span class="hljs-type">Task</span> {
+        <span class="hljs-keyword">await</span> performAsyncOperation()
+    }
+}
+
+<span class="hljs-comment">// 调用 exampleUsage()</span>
+exampleUsage()
+</code></pre>
+<p>在上面的代码中：</p>
+<ol>
+<li><code>fetchUserData()</code> 是一个异步函数，模拟了一个需要1秒钟才能完成的网络请求。</li>
+<li><code>performAsyncOperation()</code> 函数调用了 <code>fetchUserData()</code> 并处理了返回的数据。</li>
+<li><code>exampleUsage()</code> 函数使用 <code>Task</code> 创建一个新的任务来调用 <code>performAsyncOperation()</code>。</li>
+</ol>
+<h3 id="更复杂的示例">更复杂的示例</h3>
+<p>假设我们有一个应用需要先获取用户信息，然后基于这些信息获取用户的头像。我们可以使用 <code>async</code> 和 <code>await</code> 来处理这种依赖关系：</p>
+<pre><code class="language-swift"><span class="hljs-keyword">import</span> Foundation
+
+<span class="hljs-comment">// 模拟异步获取用户信息的函数</span>
+<span class="hljs-keyword">func</span> <span class="hljs-title function_">fetchUserInfo</span>() <span class="hljs-keyword">async</span> <span class="hljs-keyword">throws</span> -&gt; <span class="hljs-type">String</span> {
+    <span class="hljs-keyword">try</span> <span class="hljs-keyword">await</span> <span class="hljs-type">Task</span>.sleep(nanoseconds: <span class="hljs-number">1_000_000_000</span>) <span class="hljs-comment">// 睡眠1秒</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;User Info&quot;</span>
+}
+
+<span class="hljs-comment">// 模拟异步获取用户头像的函数</span>
+<span class="hljs-keyword">func</span> <span class="hljs-title function_">fetchUserAvatar</span>(<span class="hljs-params">info</span>: <span class="hljs-type">String</span>) <span class="hljs-keyword">async</span> <span class="hljs-keyword">throws</span> -&gt; <span class="hljs-type">String</span> {
+    <span class="hljs-keyword">try</span> <span class="hljs-keyword">await</span> <span class="hljs-type">Task</span>.sleep(nanoseconds: <span class="hljs-number">1_000_000_000</span>) <span class="hljs-comment">// 再睡眠1秒</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;User Avatar for <span class="hljs-subst">\(info)</span>&quot;</span>
+}
+
+<span class="hljs-comment">// 调用异步函数</span>
+<span class="hljs-keyword">func</span> <span class="hljs-title function_">performAsyncOperations</span>() <span class="hljs-keyword">async</span> {
+    <span class="hljs-keyword">do</span> {
+        <span class="hljs-keyword">let</span> userInfo <span class="hljs-operator">=</span> <span class="hljs-keyword">try</span> <span class="hljs-keyword">await</span> fetchUserInfo()
+        <span class="hljs-keyword">let</span> userAvatar <span class="hljs-operator">=</span> <span class="hljs-keyword">try</span> <span class="hljs-keyword">await</span> fetchUserAvatar(info: userInfo)
+        <span class="hljs-built_in">print</span>(userAvatar)
+    } <span class="hljs-keyword">catch</span> {
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Failed to fetch data: <span class="hljs-subst">\(error)</span>&quot;</span>)
+    }
+}
+
+<span class="hljs-comment">// 在适当的地方调用 performAsyncOperations() 函数</span>
+<span class="hljs-meta">@MainActor</span>
+<span class="hljs-keyword">func</span> <span class="hljs-title function_">exampleUsage</span>() {
+    <span class="hljs-type">Task</span> {
+        <span class="hljs-keyword">await</span> performAsyncOperations()
+    }
+}
+
+<span class="hljs-comment">// 调用 exampleUsage()</span>
+exampleUsage()
+</code></pre>
+<p>在这个示例中：</p>
+<ol>
+<li><code>fetchUserInfo()</code> 模拟了获取用户信息的异步操作。</li>
+<li><code>fetchUserAvatar(info:)</code> 模拟了获取用户头像的异步操作，依赖于用户信息。</li>
+<li><code>performAsyncOperations()</code> 调用了这两个异步函数，并按顺序处理它们的结果。</li>
+</ol>
+<h3 id="理解协程与线程的区别">理解协程与线程的区别</h3>
+<ol>
+<li><strong>轻量级</strong>：协程是用户态的轻量级线程，比系统线程更轻量，可以更高效地进行上下文切换。</li>
+<li><strong>控制流</strong>：协程的执行可以暂停和恢复，而线程则是由操作系统调度的。</li>
+<li><strong>可读性</strong>：使用协程可以避免回调地狱，使得异步代码更接近同步代码的风格，从而提高可读性。</li>
+</ol>
+<h3 id="实际应用中的协程示例">实际应用中的协程示例</h3>
+<p>在实际应用中，协程可以用于处理网络请求、文件读写、动画、数据库操作等各种需要异步处理的任务。以下是一个处理多个网络请求的示例：</p>
+<pre><code class="language-swift"><span class="hljs-keyword">import</span> Foundation
+
+<span class="hljs-comment">// 模拟异步网络请求的函数</span>
+<span class="hljs-keyword">func</span> <span class="hljs-title function_">fetchData</span>(<span class="hljs-params">from</span> <span class="hljs-params">url</span>: <span class="hljs-type">URL</span>) <span class="hljs-keyword">async</span> <span class="hljs-keyword">throws</span> -&gt; <span class="hljs-type">String</span> {
+    <span class="hljs-keyword">let</span> (data, <span class="hljs-keyword">_</span>) <span class="hljs-operator">=</span> <span class="hljs-keyword">try</span> <span class="hljs-keyword">await</span> <span class="hljs-type">URLSession</span>.shared.data(from: url)
+    <span class="hljs-keyword">return</span> <span class="hljs-type">String</span>(data: data, encoding: .utf8) <span class="hljs-operator">??</span> <span class="hljs-string">&quot;No data&quot;</span>
+}
+
+<span class="hljs-comment">// 调用多个异步函数并并发处理</span>
+<span class="hljs-keyword">func</span> <span class="hljs-title function_">performMultipleRequests</span>() <span class="hljs-keyword">async</span> {
+    <span class="hljs-keyword">let</span> urls <span class="hljs-operator">=</span> [
+        <span class="hljs-type">URL</span>(string: <span class="hljs-string">&quot;https://jsonplaceholder.typicode.com/posts/1&quot;</span>)<span class="hljs-operator">!</span>,
+        <span class="hljs-type">URL</span>(string: <span class="hljs-string">&quot;https://jsonplaceholder.typicode.com/posts/2&quot;</span>)<span class="hljs-operator">!</span>,
+        <span class="hljs-type">URL</span>(string: <span class="hljs-string">&quot;https://jsonplaceholder.typicode.com/posts/3&quot;</span>)<span class="hljs-operator">!</span>
+    ]
+    
+    <span class="hljs-keyword">await</span> withTaskGroup(of: <span class="hljs-type">String</span>?.<span class="hljs-keyword">self</span>) { group <span class="hljs-keyword">in</span>
+        <span class="hljs-keyword">for</span> url <span class="hljs-keyword">in</span> urls {
+            group.addTask {
+                <span class="hljs-keyword">try?</span> <span class="hljs-keyword">await</span> fetchData(from: url)
+            }
+        }
+        
+        <span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span> result <span class="hljs-keyword">in</span> group {
+            <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> data <span class="hljs-operator">=</span> result {
+                <span class="hljs-built_in">print</span>(data)
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Failed to fetch data&quot;</span>)
+            }
+        }
+    }
+}
+
+<span class="hljs-comment">// 在适当的地方调用 performMultipleRequests() 函数</span>
+<span class="hljs-meta">@MainActor</span>
+<span class="hljs-keyword">func</span> <span class="hljs-title function_">exampleUsage</span>() {
+    <span class="hljs-type">Task</span> {
+        <span class="hljs-keyword">await</span> performMultipleRequests()
+    }
+}
+
+<span class="hljs-comment">// 调用 exampleUsage()</span>
+exampleUsage()
+</code></pre>
+<p>这个示例展示了如何使用 <code>withTaskGroup</code> 并发处理多个异步任务，从而提高处理效率。</p>
+<p>在实际应用中，多个协程可以协同工作，以便同时处理多个异步任务。下面是一些场景的示例，展示了如何使用 <code>async</code> 和 <code>await</code> 实现多个协程的协同工作。</p>
+<h3 id="示例-1并发请求数据">示例 1：并发请求数据</h3>
+<p>假设我们有一个应用，需要从多个 API 端点获取数据。我们可以使用 <code>async</code> 和 <code>await</code> 以及 <code>TaskGroup</code> 来并发处理这些请求，以提高效率。</p>
+<pre><code class="language-swift"><span class="hljs-keyword">import</span> Foundation
+
+<span class="hljs-comment">// 模拟异步网络请求的函数</span>
+<span class="hljs-keyword">func</span> <span class="hljs-title function_">fetchData</span>(<span class="hljs-params">from</span> <span class="hljs-params">url</span>: <span class="hljs-type">URL</span>) <span class="hljs-keyword">async</span> <span class="hljs-keyword">throws</span> -&gt; <span class="hljs-type">String</span> {
+    <span class="hljs-keyword">let</span> (data, <span class="hljs-keyword">_</span>) <span class="hljs-operator">=</span> <span class="hljs-keyword">try</span> <span class="hljs-keyword">await</span> <span class="hljs-type">URLSession</span>.shared.data(from: url)
+    <span class="hljs-keyword">return</span> <span class="hljs-type">String</span>(data: data, encoding: .utf8) <span class="hljs-operator">??</span> <span class="hljs-string">&quot;No data&quot;</span>
+}
+
+<span class="hljs-comment">// 并发处理多个网络请求</span>
+<span class="hljs-keyword">func</span> <span class="hljs-title function_">performConcurrentRequests</span>() <span class="hljs-keyword">async</span> {
+    <span class="hljs-keyword">let</span> urls <span class="hljs-operator">=</span> [
+        <span class="hljs-type">URL</span>(string: <span class="hljs-string">&quot;https://jsonplaceholder.typicode.com/posts/1&quot;</span>)<span class="hljs-operator">!</span>,
+        <span class="hljs-type">URL</span>(string: <span class="hljs-string">&quot;https://jsonplaceholder.typicode.com/posts/2&quot;</span>)<span class="hljs-operator">!</span>,
+        <span class="hljs-type">URL</span>(string: <span class="hljs-string">&quot;https://jsonplaceholder.typicode.com/posts/3&quot;</span>)<span class="hljs-operator">!</span>
+    ]
+    
+    <span class="hljs-keyword">await</span> withTaskGroup(of: <span class="hljs-type">String</span>?.<span class="hljs-keyword">self</span>) { group <span class="hljs-keyword">in</span>
+        <span class="hljs-keyword">for</span> url <span class="hljs-keyword">in</span> urls {
+            group.addTask {
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">try?</span> <span class="hljs-keyword">await</span> fetchData(from: url)
+            }
+        }
+        
+        <span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span> result <span class="hljs-keyword">in</span> group {
+            <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> data <span class="hljs-operator">=</span> result {
+                <span class="hljs-built_in">print</span>(data)
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Failed to fetch data&quot;</span>)
+            }
+        }
+    }
+}
+
+<span class="hljs-comment">// 在适当的地方调用 performConcurrentRequests() 函数</span>
+<span class="hljs-meta">@MainActor</span>
+<span class="hljs-keyword">func</span> <span class="hljs-title function_">exampleUsage</span>() {
+    <span class="hljs-type">Task</span> {
+        <span class="hljs-keyword">await</span> performConcurrentRequests()
+    }
+}
+
+<span class="hljs-comment">// 调用 exampleUsage()</span>
+exampleUsage()
+</code></pre>
+<h3 id="示例-2依赖任务的执行">示例 2：依赖任务的执行</h3>
+<p>有时候，一个异步任务依赖于另一个异步任务的结果。在这种情况下，可以按顺序调用 <code>async</code> 函数，并使用 <code>await</code> 等待前一个任务的结果。</p>
+<pre><code class="language-swift"><span class="hljs-keyword">import</span> Foundation
+
+<span class="hljs-comment">// 模拟异步获取用户信息的函数</span>
+<span class="hljs-keyword">func</span> <span class="hljs-title function_">fetchUserInfo</span>() <span class="hljs-keyword">async</span> <span class="hljs-keyword">throws</span> -&gt; <span class="hljs-type">String</span> {
+    <span class="hljs-keyword">try</span> <span class="hljs-keyword">await</span> <span class="hljs-type">Task</span>.sleep(nanoseconds: <span class="hljs-number">1_000_000_000</span>) <span class="hljs-comment">// 睡眠1秒</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;User Info&quot;</span>
+}
+
+<span class="hljs-comment">// 模拟异步获取用户头像的函数</span>
+<span class="hljs-keyword">func</span> <span class="hljs-title function_">fetchUserAvatar</span>(<span class="hljs-params">info</span>: <span class="hljs-type">String</span>) <span class="hljs-keyword">async</span> <span class="hljs-keyword">throws</span> -&gt; <span class="hljs-type">String</span> {
+    <span class="hljs-keyword">try</span> <span class="hljs-keyword">await</span> <span class="hljs-type">Task</span>.sleep(nanoseconds: <span class="hljs-number">1_000_000_000</span>) <span class="hljs-comment">// 再睡眠1秒</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;User Avatar for <span class="hljs-subst">\(info)</span>&quot;</span>
+}
+
+<span class="hljs-comment">// 顺序执行依赖任务</span>
+<span class="hljs-keyword">func</span> <span class="hljs-title function_">performSequentialTasks</span>() <span class="hljs-keyword">async</span> {
+    <span class="hljs-keyword">do</span> {
+        <span class="hljs-keyword">let</span> userInfo <span class="hljs-operator">=</span> <span class="hljs-keyword">try</span> <span class="hljs-keyword">await</span> fetchUserInfo()
+        <span class="hljs-keyword">let</span> userAvatar <span class="hljs-operator">=</span> <span class="hljs-keyword">try</span> <span class="hljs-keyword">await</span> fetchUserAvatar(info: userInfo)
+        <span class="hljs-built_in">print</span>(userAvatar)
+    } <span class="hljs-keyword">catch</span> {
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Failed to fetch data: <span class="hljs-subst">\(error)</span>&quot;</span>)
+    }
+}
+
+<span class="hljs-comment">// 在适当的地方调用 performSequentialTasks() 函数</span>
+<span class="hljs-meta">@MainActor</span>
+<span class="hljs-keyword">func</span> <span class="hljs-title function_">exampleUsage</span>() {
+    <span class="hljs-type">Task</span> {
+        <span class="hljs-keyword">await</span> performSequentialTasks()
+    }
+}
+
+<span class="hljs-comment">// 调用 exampleUsage()</span>
+exampleUsage()
+</code></pre>
+<h3 id="示例-3并发和依赖任务结合">示例 3：并发和依赖任务结合</h3>
+<p>在更复杂的场景中，可以结合并发和顺序执行来处理任务。例如，先并发获取多个数据，然后基于这些数据执行进一步的处理。</p>
+<pre><code class="language-swift"><span class="hljs-keyword">import</span> Foundation
+
+<span class="hljs-comment">// 模拟异步网络请求的函数</span>
+<span class="hljs-keyword">func</span> <span class="hljs-title function_">fetchData</span>(<span class="hljs-params">from</span> <span class="hljs-params">url</span>: <span class="hljs-type">URL</span>) <span class="hljs-keyword">async</span> <span class="hljs-keyword">throws</span> -&gt; <span class="hljs-type">String</span> {
+    <span class="hljs-keyword">let</span> (data, <span class="hljs-keyword">_</span>) <span class="hljs-operator">=</span> <span class="hljs-keyword">try</span> <span class="hljs-keyword">await</span> <span class="hljs-type">URLSession</span>.shared.data(from: url)
+    <span class="hljs-keyword">return</span> <span class="hljs-type">String</span>(data: data, encoding: .utf8) <span class="hljs-operator">??</span> <span class="hljs-string">&quot;No data&quot;</span>
+}
+
+<span class="hljs-comment">// 模拟基于多个数据的进一步处理函数</span>
+<span class="hljs-keyword">func</span> <span class="hljs-title function_">processData</span>(<span class="hljs-params">data1</span>: <span class="hljs-type">String</span>, <span class="hljs-params">data2</span>: <span class="hljs-type">String</span>, <span class="hljs-params">data3</span>: <span class="hljs-type">String</span>) <span class="hljs-keyword">async</span> <span class="hljs-keyword">throws</span> -&gt; <span class="hljs-type">String</span> {
+    <span class="hljs-comment">// 模拟一些处理</span>
+    <span class="hljs-keyword">try</span> <span class="hljs-keyword">await</span> <span class="hljs-type">Task</span>.sleep(nanoseconds: <span class="hljs-number">500_000_000</span>) <span class="hljs-comment">// 睡眠0.5秒</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;Processed Data&quot;</span>
+}
+
+<span class="hljs-comment">// 结合并发和依赖任务</span>
+<span class="hljs-keyword">func</span> <span class="hljs-title function_">performCombinedTasks</span>() <span class="hljs-keyword">async</span> {
+    <span class="hljs-keyword">let</span> urls <span class="hljs-operator">=</span> [
+        <span class="hljs-type">URL</span>(string: <span class="hljs-string">&quot;https://jsonplaceholder.typicode.com/posts/1&quot;</span>)<span class="hljs-operator">!</span>,
+        <span class="hljs-type">URL</span>(string: <span class="hljs-string">&quot;https://jsonplaceholder.typicode.com/posts/2&quot;</span>)<span class="hljs-operator">!</span>,
+        <span class="hljs-type">URL</span>(string: <span class="hljs-string">&quot;https://jsonplaceholder.typicode.com/posts/3&quot;</span>)<span class="hljs-operator">!</span>
+    ]
+    
+    <span class="hljs-keyword">do</span> {
+        <span class="hljs-keyword">async</span> <span class="hljs-keyword">let</span> data1 <span class="hljs-operator">=</span> fetchData(from: urls[<span class="hljs-number">0</span>])
+        <span class="hljs-keyword">async</span> <span class="hljs-keyword">let</span> data2 <span class="hljs-operator">=</span> fetchData(from: urls[<span class="hljs-number">1</span>])
+        <span class="hljs-keyword">async</span> <span class="hljs-keyword">let</span> data3 <span class="hljs-operator">=</span> fetchData(from: urls[<span class="hljs-number">2</span>])
+        
+        <span class="hljs-keyword">let</span> processedData <span class="hljs-operator">=</span> <span class="hljs-keyword">try</span> <span class="hljs-keyword">await</span> processData(data1: data1, data2: data2, data3: data3)
+        <span class="hljs-built_in">print</span>(processedData)
+    } <span class="hljs-keyword">catch</span> {
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Failed to fetch or process data: <span class="hljs-subst">\(error)</span>&quot;</span>)
+    }
+}
+
+<span class="hljs-comment">// 在适当的地方调用 performCombinedTasks() 函数</span>
+<span class="hljs-meta">@MainActor</span>
+<span class="hljs-keyword">func</span> <span class="hljs-title function_">exampleUsage</span>() {
+    <span class="hljs-type">Task</span> {
+        <span class="hljs-keyword">await</span> performCombinedTasks()
+    }
+}
+
+<span class="hljs-comment">// 调用 exampleUsage()</span>
+exampleUsage()
+</code></pre>
+<p>在上面的示例中，我们首先并发地获取三个数据，然后等待所有数据获取完成后，进行进一步的处理。</p>
+<h3 id="协程的优势">协程的优势</h3>
+<ol>
+<li><strong>简化异步代码</strong>：协程使异步代码看起来像同步代码，消除了回调地狱。</li>
+<li><strong>提高性能</strong>：通过并发处理，可以更高效地利用系统资源，减少等待时间。</li>
+<li><strong>易于维护</strong>：协程的代码结构更加清晰，便于维护和调试。</li>
+</ol>
+<p>通过上述示例，希望你能更好地理解 <code>async</code> 和 <code>await</code> 的用法，以及如何在实际应用中使用协程来处理复杂的异步任务。</p>
+
+            
+            
+        </body>
+        </html>

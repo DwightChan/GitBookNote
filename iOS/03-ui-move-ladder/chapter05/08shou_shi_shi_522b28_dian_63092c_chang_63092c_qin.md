@@ -5,7 +5,7 @@
 //  ViewController.m
 //  My-手势识别
 //
-//  Created by 陈德豪 on 16/6/4.
+//  Created by Dwight on 16/6/4.
 //  Copyright © 2016年 chendehao. All rights reserved.
 //
 
