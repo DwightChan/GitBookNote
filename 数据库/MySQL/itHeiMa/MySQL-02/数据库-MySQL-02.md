@@ -183,7 +183,7 @@ select name AS "姓名", entrydate AS "入职日期" from tb_emp;
 
 
 案例4：查询已有的员工关联了哪几种职位(不要重复)
-
+- 关键字 `distinct`
 ~~~mysql
 select distinct job from tb_emp;
 ~~~
@@ -419,12 +419,12 @@ select  聚合函数(字段列表)  from  表名 ;
 select count(id) from tb_emp;-- 结果：29
 select count(job) from tb_emp;-- 结果：28 （聚合函数对NULL值不做计算）
 
-# count(常量)
-select count(0) from tb_emp;
-select count('A') from tb_emp;
+# count(常量) 只要不是null 就可以计算
+select count(0) from tb_emp; -- 结果：29
+select count('A') from tb_emp; -- 结果：29
 
 # count(*)  推荐此写法（MySQL底层进行了优化）
-select count(*) from tb_emp;
+select count(*) from tb_emp; -- 结果：29
 ~~~
 
 
