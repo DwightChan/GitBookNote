@@ -1,0 +1,155 @@
+
+
+# Dart泛型在Flutter中的应用-辅导说明和源码
+
+> main.dart
+
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:flutter_dart_learn/data_type.dart';
+import 'package:flutter_dart_learn/generic_learn.dart';
+import 'package:flutter_dart_learn/oop_learn.dart';
+
+import 'function_learn.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter必备Dart基础',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MyHomePage(title: 'Flutter必备Dart基础'),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  MyHomePage({Key key, this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  Widget build(BuildContext context) {
+//    _oopLearn();
+//    _functionLearn();
+    _genericLearn();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: ListView(
+          children: <Widget>[
+//            DataType(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _oopLearn() {
+    //创建Student的对象
+    Student stu1 = Student('清华', 'Jack', 18);
+    stu1.school = '985';
+    print(stu1.toString());
+    Student stu2 = Student('北大', 'Tom', 16, city: '上海', country: '中国');
+    print(stu2.toString());
+
+    Student.doPrint('_oopLearn');
+
+    StudyFlutter sf = StudyFlutter();
+    sf.study();
+    Logger log1 = Logger();
+    Logger log2 = Logger();
+    print(log1 == log2);
+  }
+
+  void _functionLearn() {
+    TestFunction testFunction = TestFunction();
+    testFunction.start();
+  }
+
+  void _genericLearn() {
+    TestGeneric testGeneric = TestGeneric();
+    testGeneric.start();
+  }
+}
+
+```
+
+
+> generic_learn.dart
+
+
+```dart
+//入口方法
+//构造方法
+//实例方法
+//setters 和 getters
+//静态方法
+//抽象方法
+//私有方法
+//匿名方法
+//泛型方法
+
+import 'package:flutter_dart_learn/oop_learn.dart';
+
+class TestGeneric {
+
+  void start() {
+    //泛型
+    Cache<String> cache1 = Cache();
+    cache1.setItem('cache1', 'cache1'); //泛型作用：类型检查约束类比：List<String>
+    String string1 = cache1.getItem('cache1');
+    print(string1);
+
+    Cache<int> cache2 = Cache();
+    cache2.setItem('cache2', 1008);
+    int int1 = cache2.getItem('cache2');
+    print(int1);
+
+    Member<Student> member = Member(Student('', '', 16));
+    print(member.fixedName());
+  }
+}
+
+///泛型：
+///通俗理解：泛型主要是解决类、接口、方法的复用性、以及对不特定数据类型的支持
+
+///泛型类
+///泛型作用：提高代码服用度
+class Cache<T> {
+  static final Map<String, Object> _cached = Map();
+
+  void setItem(String key, T value) {
+    _cached[key] = value;
+  }
+
+  ///泛型方法
+  T getItem(String key) {
+    return _cached[key];
+  }
+}
+
+///有时候你在实现类似通用接口的泛型中，期望的类型是某些特定类型时，这时可以使用类型约束
+class Member<T extends Person> {
+  T _person;
+
+  ///泛型作用：约束参数类型
+  Member(this._person);
+
+  String fixedName() {
+    return 'fixed:${_person.name}';
+  }
+}
+```

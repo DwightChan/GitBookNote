@@ -1,3 +1,5 @@
+# 9-5 shared_preferences 数据存储
+
 在这篇文章中，我将向大家分享Flutter 本地存储的一些实用知识和技巧。首先会带你一起认识[什么是shared_preferences](https://coding.imooc.com/class/321.html)、[如何使用shared_preferences](https://coding.imooc.com/class/321.html)、以及[shared_preferences有那些常用的API？](https://coding.imooc.com/class/321.html)，最后会通过一个[计数器的例子](https://coding.imooc.com/class/321.html)来巩固Flutter 中本地存储的知识点等。
 
 > - 在你学习Flutter 本地存储过程中遇到无法解决的问题或疑问，都可以在[课程问答区](https://coding.imooc.com/learn/qa/321.html)进行[提问](https://coding.imooc.com/learn/qa/321.html)，课程老师会对你进行辅导和帮助；

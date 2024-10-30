@@ -495,7 +495,7 @@ void main() {
        super(key: key);
 ```
 
-- tag：[必须]用于关联两个Hero动画的标识；
+- **tag：[必须]用于关联两个Hero动画的标识；**
 - createRectTween：[可选]定义目标Hero的边界，在从起始位置到目的位置的“飞行”过程中该如何变化；
 - child：[必须]定义动画所呈现的widget；
 

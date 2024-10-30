@@ -28,6 +28,10 @@ Http 是Flutter社区开发的一个可组合的、跨平台的用于Flutter的�
 ```
 dependencies:
   http: <latest_version>
+
+```
+
+```
 Future<http.Response> fetchPost() {
   return http.get('https://jsonplaceholder.typicode.com/posts/1');
 }
@@ -48,6 +52,9 @@ Future<http.Response> fetchPost() {
 ```
 dependencies:
   http: <latest_version>
+```
+
+```
 Future<http.Response> fetchPost() {
   return http.post('https://jsonplaceholder.typicode.com/posts/1');
 }
