@@ -857,7 +857,7 @@ public class AutoConfigurationTests {
 
 ~~~java
 @SpringBootApplication
-@ComponentScan({"com.itheima","com.example"}) //指定要扫描的包 （注意 当使用 ComponentScan 扫描的话， 会覆盖 SpringBootApplication， 因此这里也需要 包含当前 包
+@ComponentScan({"com.itheima","com.example"}) //指定要扫描的包 （注意 当使用 ComponentScan 扫描的话， 会覆盖 SpringBootApplication， 因此这里也需要 包含当前 包）
 public class SpringbootWebConfig2Application {
     public static void main(String[] args) {
         SpringApplication.run(SpringbootWebConfig2Application.class, args);
