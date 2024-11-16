@@ -703,7 +703,7 @@ public class AddressBookController {
 | number      | int           | 商品数量     |          |
 | amount      | decimal(10,2) | 商品单价     |          |
 
-**说明：**用户提交订单时，需要往订单表orders中插入一条记录，并且需要往order_detail中插入一条或多条记录。
+**说明：** 用户提交订单时，需要往订单表orders中插入一条记录，并且需要往order_detail中插入一条或多条记录。
 
 
 

@@ -237,7 +237,7 @@ public class EmployeeDTO implements Serializable {
     }
 ```
 
-**注：**Result类定义了后端统一返回结果格式。
+**注：** Result类定义了后端统一返回结果格式。
 
 进入sky-common模块，在com.sky.result包下定义了Result.java
 
@@ -509,7 +509,7 @@ json数据：
 
 
 
-**注意：**由于开发阶段前端和后端是并行开发的，后端完成某个功能后，此时前端对应的功能可能还没有开发完成，
+**注意：** 由于开发阶段前端和后端是并行开发的，后端完成某个功能后，此时前端对应的功能可能还没有开发完成，
 导致无法进行前后端联调测试。所以在开发阶段，后端测试主要以接口文档测试为主。
 
 
@@ -1060,7 +1060,7 @@ public class Result<T> implements Serializable {
     }
 ```
 
-**注意：**此处使用 mybatis 的分页插件 PageHelper 来简化分页代码的开发。底层基于 mybatis 的拦截器实现。
+**注意：** 此处使用 mybatis 的分页插件 PageHelper 来简化分页代码的开发。底层基于 mybatis 的拦截器实现。
 
 故在pom.xml文中添加依赖(初始工程已添加)
 
@@ -1113,7 +1113,7 @@ public class Result<T> implements Serializable {
 
 #### 2.3.1 接口文档测试
 
-**重启服务：**访问http://localhost:8080/doc.html，进入员工分页查询
+**重启服务：** 访问http://localhost:8080/doc.html，进入员工分页查询
 
 <img src="assets/image-20221112101848657.png" alt="image-20221112101848657" style="zoom:67%;" /> 
 

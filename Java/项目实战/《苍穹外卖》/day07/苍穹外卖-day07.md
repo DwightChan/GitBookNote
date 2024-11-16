@@ -280,7 +280,7 @@
 
 <img src="assets/image-20221210174839028.png" alt="image-20221210174839028" style="zoom:50%;" /> 
 
-**查看Redis中的缓存数据：**说明缓存成功
+**查看Redis中的缓存数据：** 说明缓存成功
 
 <img src="assets/image-20221210175055282.png" alt="image-20221210175055282" style="zoom:50%;" /> 
 
@@ -296,7 +296,7 @@
 
 当在后台修改菜品数据时，为了保证Redis缓存中的数据和数据库中的数据时刻保持一致，当修改后，需要清空对应的缓存数据。用户再次访问时，还是先从数据库中查询，同时再把查询的结果存储到Redis中，这样，就能保证缓存和数据库的数据保持一致。
 
-**进入后台：**修改蜀味牛蛙分类下的任意一个菜品，当前分类的菜品数据已在Redis中缓存
+**进入后台：** 修改蜀味牛蛙分类下的任意一个菜品，当前分类的菜品数据已在Redis中缓存
 
 <img src="assets/image-20221210180624453.png" alt="image-20221210180624453" style="zoom:50%;" /> 
 
@@ -304,7 +304,7 @@
 
 <img src="assets/image-20221210180900924.png" alt="image-20221210180900924" style="zoom:50%;" /> 
 
-**查看Redis中的缓存数据：**说明修改时，已清空缓存
+**查看Redis中的缓存数据：** 说明修改时，已清空缓存
 
 <img src="assets/image-20221210181142408.png" alt="image-20221210181142408" style="zoom:50%;" /> 
 
@@ -433,7 +433,7 @@ public class CacheDemoApplication {
     }
 ```
 
-**说明：**key的写法如下
+**说明：** key的写法如下
 
 #user.id : #user指的是方法形参的名称, id指的是user的id属性 , 也就是使用user的id属性作为key ;
 
@@ -499,11 +499,11 @@ public class CacheDemoApplication {
 
 <img src="assets/image-20221210193834150.png" alt="image-20221210193834150" style="zoom:50%;" /> 
 
-**查看控制台sql语句：**说明从数据库查询的用户数据
+**查看控制台sql语句：** 说明从数据库查询的用户数据
 
 <img src="assets/image-20221210193948896.png" alt="image-20221210193948896" style="zoom: 67%;" /> 
 
-**查看Redis中的缓存数据：**说明已成功缓存
+**查看Redis中的缓存数据：** 说明已成功缓存
 
 <img src="assets/image-20221210194112334.png" alt="image-20221210194112334" style="zoom:50%;" /> 
 
